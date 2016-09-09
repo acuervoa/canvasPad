@@ -13,5 +13,20 @@ function Canvas2D($canvas)
 		}
 	};
 
+	this.clear = function() {
+		context.clearRect(0, 0, width, height);
+		return this;
+	};
+
+	this.drawPoints = function(points) {
+		context.beginPath();
+		context.moveTo(points[0].x, points[0].y);
+		for(var i=1; i < points.length; i++) {
+			context.lineTo(points[i].x, points[i].y);
+		}
+		context.stroke();
+		return this;
+	};
+
 	$(window).resize(function() { pageOffset = $canvas.offset(); });
 }
