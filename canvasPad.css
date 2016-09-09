@@ -56,3 +56,55 @@ button
 	background-color: white;
 	box-shadow: 0 0 8px 2px #555;
 }
+
+#toolbar
+{
+	padding: 2px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+#toolbar button
+{
+	border: none;
+	background-color: transparent;
+	color: white;
+	font-size: 1em;
+}
+
+#toolbar .dropdown-menu
+{
+	display: inline-block;
+	position: relative;
+}
+
+#toolbar ul.menu
+{
+	display:none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	margin: 0;
+	padding-left: 1.5em;
+	border: 1px solid black;
+	box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.5);
+	background-color: silver;
+	color: black;
+	list-style-type: none;
+}
+
+#toolbar ul.menu>li
+{
+	margin: 0;
+	min-width: 4em;
+	height: 2em;
+	border-width: 0;
+	background-color: WhiteSmoke;
+	font-size: .75em;
+	cursor: pointer;
+}
+
+#toolbar ul.menu>li.selected
+{
+	list-style-type: circle;
+	background-color: lightblue;
+}

@@ -4,6 +4,7 @@ function CanvasPadApp()
 {
 	var version = " v1.0",
 	canvas2d = new Canvas2D($("#main>canvas")),
+	toolbar = new Toolbar($("#toolbar")),
 	drawing = false,
 	points = [],
 	actions = [];
@@ -19,6 +20,33 @@ function CanvasPadApp()
 			.mousedown(onMouseDown)
 			.mouseup(onMouseUp)
 			.mouseout(onMouseUp);
+
+		toolbar.toolbarButtonClicked = toolbarButtonClicked;
+		toolbar.menuItemClicked = menuItemClicked;
+	}
+
+	function toolbarButtonClicked(action)
+	{
+		switch (action)
+		{
+			case "clear":
+				if (confirm("Clear the canvas?"))
+				{
+					actions = [];
+					redraw();
+				}
+				break;
+			case "undo":
+				actions.pop();
+				redraw();
+				break;
+
+		}
+	}
+
+	function menuItemClicked(option, value)
+	{
+		canvas2d[option](value);
 	}
 
 	function onMouseMove(e) {

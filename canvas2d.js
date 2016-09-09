@@ -6,6 +6,13 @@ function Canvas2D($canvas)
 
 	var pageOffset = $canvas.offset();
 
+	context.lineWidth = 4;
+	context.strokeStyle = "black";
+	context.fillStyle = "black";
+	context.globalAlpha = 1.0;
+	context.lineJoin = "round";
+	context.lineCap = "round";
+
 	this.getCanvasPoint = function(pageX, pageY) {
 		return {
 			x: pageX - pageOffset.left,
@@ -27,6 +34,33 @@ function Canvas2D($canvas)
 		context.stroke();
 		return this;
 	};
+
+
+	this.penWidth = function(newWidth) {
+		if (arguments.length) {
+			context.lineWidth = newWidth;
+			return this;
+		}
+		return context.lineWidth;
+	};
+
+	this.penColor = function(newColor) {
+		if (arguments.length) {
+			context.strokeStyle = newColor;
+			context.fillStyle = newColor;
+			return this;
+		}
+		return context.strokeStyle;
+	};
+
+	this.penOpacity = function(newOpacity){
+		if (arguments.length) {
+			context.globalAlpha = newOpacity;
+			return this;
+		}
+		return context
+	};
+
 
 	$(window).resize(function() { pageOffset = $canvas.offset(); });
 }
