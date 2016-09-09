@@ -2,7 +2,8 @@
 
 function CanvasPadApp()
 {
-	var version = " v1.0";
+	var version = " v1.0",
+	canvas2d = new Canvas2D($("#main>canvas"));
 
 	function setStatus(message) {
 
@@ -11,22 +12,20 @@ function CanvasPadApp()
 
 	this.start = function() {
 		$("#app>header").append(version);
-		setStatus("ready");
+		$("#main>canvas").mousemove(onMouseMove);
+	}
+
+	function onMouseMove(e) {
+		var canvasPoint = canvas2d.getCanvasPoint(e.pageX, e.pageY);
+		showCoordinates(canvasPoint);
+	}
+
+	function showCoordinates(point) {
+		$("#coords").text(point.x + ", " + point.y);
 	}
 }
 
-/*var myApp = {
-	version: "v1.0",
-	setStatus: function(message)
-	{
-		$("#app>footer").text(message);
-	},
-	start: function()
-	{
-		$("#app>header").append(this.version);
-		this.setStatus("ready");
-	}
-}*/
+
 
 $(function() {
 	window.app = new CanvasPadApp();
