@@ -28,7 +28,7 @@ function Toolbar($toolbar)
 		{
 			if (action == "menu")
 			{
-				showMenu($button.siblings("ul.munu"));
+				showMenu($button.siblings("ul.menu"));
 			}
 			else
 			{
@@ -63,8 +63,7 @@ function Toolbar($toolbar)
 		var value = $item.data("value");
 		if(!_this.menuItemClicked(option, value))
 		{
-			$item.addClass("selected")
-				.siblins().removeClass("selected");
+			$item.addClass("selected").siblings().removeClass("selected");
 			$menu.fadeOut("fast");
 		}
 	}

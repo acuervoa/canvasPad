@@ -2,11 +2,13 @@
 
 function CanvasPadApp()
 {
-	var version = " v1.0",
+	var version = " v4.2",
 	canvas2d = new Canvas2D($("#main>canvas")),
 	toolbar = new Toolbar($("#toolbar")),
 	drawing = false,
 	points = [],
+	curTool = "pen",
+	curAction = newAction(curTool),
 	actions = [];
 
 	function setStatus(message) {
@@ -23,6 +25,8 @@ function CanvasPadApp()
 
 		toolbar.toolbarButtonClicked = toolbarButtonClicked;
 		toolbar.menuItemClicked = menuItemClicked;
+		initColorMenu();
+		initWidthMenu();
 	}
 
 	function toolbarButtonClicked(action)
@@ -49,6 +53,29 @@ function CanvasPadApp()
 		canvas2d[option](value);
 	}
 
+	function initColorMenu()
+	{
+		$("#color-menu li").each(function(i, e){
+			$(e).css("background-color", $(e).data("value"));
+		});
+	}
+
+	function initWidthMenu() {
+		$("#width-menu li").each(function(i, e) {
+			$(e).css("border-bottom", $(e).data("value") + "px solid black");
+		});
+	}
+
+	function newAction(tool){
+		return {
+			tool: tool,
+			color: canvas2d.penColor(),
+			width: canvas2d.penWidth(),
+			opacity: canvas2d.penOpacity(),
+			points: []
+		};
+	}
+
 	function onMouseMove(e) {
 		penMoved(e.pageX, e.pageY);
 	}
@@ -58,16 +85,23 @@ function CanvasPadApp()
 		showCoordinates(canvasPoint);
 
 		if(drawing) {
-			points.push(canvasPoint);
+			curAction.points.push(canvasPoint);
 			redraw();
 		}
 	}
 
 	function redraw() {
 		canvas2d.clear();
+		canvas2d.savePen();
+
 		for(var i in actions) {
-			canvas2d.drawPoints(actions[i]);
+			var action = actions[i];
+			canvas2d.penColor(action.color).penWidth(action.width).penOpacity(action.opacity);
+
+			canvas2d.drawPoints(action.points);
 		}
+
+		canvas2d.restorePen();
 	}
 
 	function showCoordinates(point) {
@@ -81,9 +115,9 @@ function CanvasPadApp()
 
 	function penDown(pageX, pageY) {
 		drawing = true;
-		points = [];
-		points.push(canvas2d.getCanvasPoint(pageX,pageY));
-		actions.push(points);
+		curAction = newAction(curTool);
+		curAction.points.push(canvas2d.getCanvasPoint(pageX, pageY));
+		actions.push(curAction);
 	}
 
 	function onMouseUp(e) {
@@ -91,7 +125,14 @@ function CanvasPadApp()
 	}
 
 	function penUp() {
-		drawing = false;
+		if(drawing){
+			drawing = false;
+			if(curAction.points.length < 2)
+			{
+				actions.pop();
+			}	
+		}
+		
 	}
 }
 
