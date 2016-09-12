@@ -41,7 +41,17 @@ function Canvas2D($canvas)
 		context.lineTo(point2.x, point2.y);
 		context.stroke();
 		return this;
-	}
+	};
+
+	this.drawRect = function(point1, point2, fill) {
+		var w = point2.x - point1.x,
+			h = point2.y - point1.y;
+
+		if (fill) context.fillRect(point1.x, point1.y, w, h);
+		else context.strokeRect(point1.x, point1.y, w, h);
+
+		return this;
+	};
 
 
 	this.penWidth = function(newWidth) {

@@ -9,7 +9,8 @@ function CanvasPadApp()
 	points = [],
 	curTool = "pen",
 	curAction = newAction(curTool),
-	actions = [];
+	actions = [],
+	fillShapes = true;
 
 	function setStatus(message) {
 
@@ -55,6 +56,9 @@ function CanvasPadApp()
 			case "drawingTool":
 				curTool = value;
 				break;
+			case "fillShapes":
+				fillShapes = Boolean(value);
+				break;
 			default:
 				canvas2d[option](value);
 		}
@@ -80,6 +84,7 @@ function CanvasPadApp()
 			color: canvas2d.penColor(),
 			width: canvas2d.penWidth(),
 			opacity: canvas2d.penOpacity(),
+			fill: fillShapes,
 			points: []
 		};
 	}
@@ -123,7 +128,8 @@ function CanvasPadApp()
 					canvas2d.drawPoints(action.points);
 					break;
 				case "line":
-					canvas2d.drawLine(action.points[0], action.points[1]);
+					canvas2d.drawLine(action.points[0], 
+						action.points[1]);
 					break;		
 			}
 			
