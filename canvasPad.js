@@ -50,7 +50,15 @@ function CanvasPadApp()
 
 	function menuItemClicked(option, value)
 	{
-		canvas2d[option](value);
+		switch (option)
+		{
+			case "drawingTool":
+				curTool = value;
+				break;
+			default:
+				canvas2d[option](value);
+		}
+		
 	}
 
 	function initColorMenu()
@@ -85,7 +93,16 @@ function CanvasPadApp()
 		showCoordinates(canvasPoint);
 
 		if(drawing) {
-			curAction.points.push(canvasPoint);
+			if (curTool == "pen") {
+				// Add another point
+				curAction.points.push(canvasPoint);
+			}
+			else 
+			{
+				// Change the second point
+				curAction.points[1] = canvasPoint;
+				
+			}
 			redraw();
 		}
 	}
@@ -96,9 +113,20 @@ function CanvasPadApp()
 
 		for(var i in actions) {
 			var action = actions[i];
-			canvas2d.penColor(action.color).penWidth(action.width).penOpacity(action.opacity);
+			canvas2d.penColor(action.color)
+					.penWidth(action.width)
+					.penOpacity(action.opacity);
 
-			canvas2d.drawPoints(action.points);
+			switch(action.tool)
+			{
+				case "pen":
+					canvas2d.drawPoints(action.points);
+					break;
+				case "line":
+					canvas2d.drawLine(action.points[0], action.points[1]);
+					break;		
+			}
+			
 		}
 
 		canvas2d.restorePen();

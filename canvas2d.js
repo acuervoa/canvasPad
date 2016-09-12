@@ -35,6 +35,14 @@ function Canvas2D($canvas)
 		return this;
 	};
 
+	this.drawLine = function(point1, point2) {
+		context.beginPath();
+		context.moveTo(point1.x, point1.y);
+		context.lineTo(point2.x, point2.y);
+		context.stroke();
+		return this;
+	}
+
 
 	this.penWidth = function(newWidth) {
 		if (arguments.length) {
