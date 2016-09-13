@@ -53,6 +53,13 @@ function Canvas2D($canvas)
 		return this;
 	};
 
+	this.drawCircle = function(center, radius, fill) {
+		context.beginPath();
+		context.arc(center.x, center.y, radius, 0, 2 * Math.PI, true);
+		if (fill) context.fill();
+		else context.stroke();
+		return this;
+	};
 
 	this.penWidth = function(newWidth) {
 		if (arguments.length) {
