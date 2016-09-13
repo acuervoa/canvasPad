@@ -108,3 +108,15 @@ button
 	list-style-type: circle;
 	background-color: lightblue;
 }
+
+#text-input
+{
+	display: none;
+	position: absolute;
+	width: 8em;
+}
+
+#text-input>input
+{
+	font-size: 24px;
+}

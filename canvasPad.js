@@ -28,6 +28,24 @@ function CanvasPadApp()
 		toolbar.menuItemClicked = menuItemClicked;
 		initColorMenu();
 		initWidthMenu();
+
+		$("#text-input input").keydown(function (e) {
+			checkTextInput(e.which);
+		});
+	}
+
+	function checkTextInput(key) {
+		if(key == 13) // Enter key
+		{
+			curAction.text = $("#text-input input").val();
+			$("#text-input").hide();
+			redraw();
+		}
+		else if (key == 27) // Escape
+		{
+			actions.pop();
+			$("#text-input").hide();
+		}
 	}
 
 	function toolbarButtonClicked(action)
@@ -144,6 +162,10 @@ function CanvasPadApp()
 					var radius = Math.min(dx, dy);
 					canvas2d.drawCircle(action.points[0], radius, action.fill);
 					break;
+				case "text":
+					canvas2d.drawText(action.text, action.points[0],
+						action.fill);
+					break;
 
 			}
 			
@@ -162,10 +184,18 @@ function CanvasPadApp()
 	}
 
 	function penDown(pageX, pageY) {
-		drawing = true;
+
+		if (curTool == "text") {
+			// Check if it's already visible
+			if ($("#text-input").is(":visible")) return;
+			showTextInput(pageX, pageY);
+		} else {
+			drawing = true;
+		}
 		curAction = newAction(curTool);
 		curAction.points.push(canvas2d.getCanvasPoint(pageX, pageY));
 		actions.push(curAction);
+		
 	}
 
 	function onMouseUp(e) {
@@ -181,6 +211,13 @@ function CanvasPadApp()
 			}	
 		}
 		
+	}
+
+	function showTextInput(pageX, pageY) {
+		$("#text-input").css("top", pageY)
+						.css("left", pageX)
+						.fadeIn("fast");
+		$("#text-input input").val("").focus();
 	}
 }
 

@@ -12,6 +12,8 @@ function Canvas2D($canvas)
 	context.globalAlpha = 1.0;
 	context.lineJoin = "round";
 	context.lineCap = "round";
+	context.font = "24px Verdana, Geneva, sans-serif";
+	context.textBaseline = "top";
 
 	this.getCanvasPoint = function(pageX, pageY) {
 		return {
@@ -59,6 +61,14 @@ function Canvas2D($canvas)
 		if (fill) context.fill();
 		else context.stroke();
 		return this;
+	};
+
+	this.drawText = function(text, point, fill) {
+		if(fill){
+			context.fillText(text, point.x, point.y);
+		} else {
+			context.strokeText(text, point.x, point.y);
+		}
 	};
 
 	this.penWidth = function(newWidth) {
