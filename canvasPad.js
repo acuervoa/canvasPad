@@ -63,6 +63,10 @@ function CanvasPadApp()
 				actions.pop();
 				redraw();
 				break;
+			case "save":
+				var url = $("#main>canvas")[0].toDataURL();
+				window.open(url, "CanvasPadImage");
+				break;
 
 		}
 	}
@@ -170,6 +174,7 @@ function CanvasPadApp()
 					canvas2d.drawText(action.text, action.points[0],
 						action.fill);
 					break;
+
 				/*case "triangle":
 					canvas2d.drawTriangle(action.points[0],
 							 action.points[1],
