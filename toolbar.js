@@ -41,7 +41,7 @@ function Toolbar($toolbar)
 	{
 		if($menu.is(":visible"))
 		{
-			$menu.fadeOur("fast");
+			$menu.fadeOut("fast");
 		}
 		else
 		{

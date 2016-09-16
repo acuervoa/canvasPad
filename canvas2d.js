@@ -71,6 +71,39 @@ function Canvas2D($canvas)
 		}
 	};
 
+	this.drawTriangle = function(point1, point2, point3, fill) {
+		context.beginPath();
+		context.moveTo(point1.x, point1.y);
+		context.lineTo(point2.x, point2.y);
+		//context.lineTo(point3.x, point3.y);
+		context.closePath();
+		
+		if(fill) context.fill();
+		else context.stroke();
+		return this;
+		
+	};
+
+	this.drawEllipse = function(center, endPoint, fill) {
+		var rx = Math.abs(endPoint.x - center.x);
+		var ry = Math.abs(endPoint.y - center.y);
+		var radius = Math.max(rx, ry);
+		var scaleX = rx / radius;
+		var scaleY = ry / radius;
+
+		context.save();
+		context.translate(center.x, center.y);
+		context.scale(scaleX, scaleY);
+		context.beginPath();
+		context.arc(0, 0, radius, 0, Math.PI * 2, true);
+		context.closePath();
+		if (fill) context.fill();
+		else context.stroke();
+		context.restore();
+
+		return this;
+	}
+
 	this.penWidth = function(newWidth) {
 		if (arguments.length) {
 			context.lineWidth = newWidth;

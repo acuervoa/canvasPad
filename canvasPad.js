@@ -120,6 +120,7 @@ function CanvasPadApp()
 				// Add another point
 				curAction.points.push(canvasPoint);
 			}
+			
 			else 
 			{
 				// Change the second point
@@ -162,10 +163,19 @@ function CanvasPadApp()
 					var radius = Math.min(dx, dy);
 					canvas2d.drawCircle(action.points[0], radius, action.fill);
 					break;
+				case "ellipse":
+					canvas2d.drawEllipse(action.points[0], action.points[1], action.fill);
+					break;
 				case "text":
 					canvas2d.drawText(action.text, action.points[0],
 						action.fill);
 					break;
+				/*case "triangle":
+					canvas2d.drawTriangle(action.points[0],
+							 action.points[1],
+							 action.points[2],
+							 action.fill);
+					break;*/
 
 			}
 			
@@ -189,9 +199,11 @@ function CanvasPadApp()
 			// Check if it's already visible
 			if ($("#text-input").is(":visible")) return;
 			showTextInput(pageX, pageY);
-		} else {
+		
+		}else{
 			drawing = true;
 		}
+
 		curAction = newAction(curTool);
 		curAction.points.push(canvas2d.getCanvasPoint(pageX, pageY));
 		actions.push(curAction);
@@ -203,8 +215,10 @@ function CanvasPadApp()
 	}
 
 	function penUp() {
+
 		if(drawing){
 			drawing = false;
+
 			if(curAction.points.length < 2)
 			{
 				actions.pop();
