@@ -19,11 +19,16 @@ function CanvasPadApp()
 
 	this.start = function() {
 		$("#app>header").append(version);
-		$("#main>canvas").mousemove(onMouseMove)
-			.mousedown(onMouseDown)
-			.mouseup(onMouseUp)
-			.mouseout(onMouseUp);
-
+		if($.isTouchSupported) {
+			$("#main.canvas").touchstart(onTouchStart)
+				.touchmove(onTouchMove)
+				.touchend(onTouchEnd);
+		}else{
+			$("#main>canvas").mousemove(onMouseMove)
+				.mousedown(onMouseDown)
+				.mouseup(onMouseUp)
+				.mouseout(onMouseUp);
+		}
 		toolbar.toolbarButtonClicked = toolbarButtonClicked;
 		toolbar.menuItemClicked = menuItemClicked;
 		initColorMenu();
@@ -33,6 +38,25 @@ function CanvasPadApp()
 			checkTextInput(e.which);
 		});
 	}
+
+function onTouchStart(e)
+{
+	e.stopPropagation();
+	e.preventDefaul();
+	penDown(e.touches[0].pageX, e.touches[0].pageY);
+}
+
+function onTouchMove(e)
+{
+	e.stopPropagation();
+	e.preventDefaul();
+	penMoved(e.touches[0].pageX, e.touches[0].pageY);	
+}
+
+function onTouchEnd(e)
+{
+	penUp();
+}
 
 	function checkTextInput(key) {
 		if(key == 13) // Enter key
